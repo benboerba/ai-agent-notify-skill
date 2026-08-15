@@ -28,7 +28,7 @@ def main() -> int:
     config = codex_home / "config.toml"
     source_dir = Path(__file__).resolve().parent
     scripts_dir = codex_home / "scripts"
-    sender = scripts_dir / "ai-agent-notify.sh"
+    sender = scripts_dir / "ai-agent-notify.py"
     dispatcher = scripts_dir / "ai-agent-notify-dispatcher.py"
     previous_file = codex_home / "ai-agent-notify-previous.json"
     backup = codex_home / "config.toml.ai-agent-notify.bak"
@@ -70,12 +70,18 @@ def main() -> int:
     if config.exists() and not backup.exists():
         shutil.copy2(config, backup)
 
-    shutil.copy2(source_dir / "notify.sh", sender)
+    shutil.copy2(source_dir / "notify.py", sender)
     shutil.copy2(source_dir / "notify_dispatcher.py", dispatcher)
-    os.chmod(sender, 0o700)
-    os.chmod(dispatcher, 0o700)
+    try:
+        os.chmod(sender, 0o700)
+        os.chmod(dispatcher, 0o700)
+    except OSError:
+        pass
     previous_file.write_text(json.dumps(previous, ensure_ascii=False), encoding="utf-8")
-    os.chmod(previous_file, 0o600)
+    try:
+        os.chmod(previous_file, 0o600)
+    except OSError:
+        pass
 
     rendered = json.dumps(new_notify, ensure_ascii=False)
     line = f"notify = {rendered}"
