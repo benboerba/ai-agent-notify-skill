@@ -1,5 +1,7 @@
 # AI Agent 完成通知 Skill
 
+仓库地址：[https://github.com/benboerba/ai-agent-notify-skill](https://github.com/benboerba/ai-agent-notify-skill)
+
 让AI Agent完成任务后主动通知手机。安装时让用户选择：
 
 1. Bark通知
@@ -19,7 +21,7 @@
 也可以直接让Codex执行：
 
 ```text
-请从这个GitHub仓库安装 ai-agent-notify Skill。安装后使用它，帮我选择并配置 Bark、微信或双通道任务完成通知。
+请从 https://github.com/benboerba/ai-agent-notify-skill 安装 ai-agent-notify Skill。安装后使用它，帮我选择并配置 Bark、微信或双通道任务完成通知。
 ```
 
 安装后可这样使用：
@@ -30,10 +32,10 @@
 
 ## 交给其他 AI Agent 安装
 
-将下面这段话连同本仓库链接发给具备本地文件和命令执行能力的AI Agent：
+将下面这段话发给具备本地文件和命令执行能力的AI Agent：
 
 ```text
-请安装此仓库中的 ai-agent-notify Skill：
+请安装 https://github.com/benboerba/ai-agent-notify-skill 中的 ai-agent-notify Skill：
 1. 将完整的 ai-agent-notify 目录复制到你的用户级 Skills 目录；
 2. 完整读取 SKILL.md，不要只复制脚本；
 3. 保留 scripts、references 和 agents 子目录；
