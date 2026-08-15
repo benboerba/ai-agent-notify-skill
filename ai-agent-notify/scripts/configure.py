@@ -66,9 +66,15 @@ def main() -> int:
         output.parent.mkdir(parents=True, exist_ok=True)
         temporary = output.with_suffix(output.suffix + ".tmp")
         temporary.write_text(rendered, encoding="utf-8")
-        os.chmod(temporary, 0o600)
+        try:
+            os.chmod(temporary, 0o600)
+        except OSError:
+            pass
         os.replace(temporary, output)
-        os.chmod(output, 0o600)
+        try:
+            os.chmod(output, 0o600)
+        except OSError:
+            pass
         print(json.dumps({"ok": True, "mode": mode, "config": str(output)}, ensure_ascii=False))
         return 0
     except (ValueError, json.JSONDecodeError) as exc:

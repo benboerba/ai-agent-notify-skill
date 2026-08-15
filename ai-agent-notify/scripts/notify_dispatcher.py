@@ -12,7 +12,7 @@ from pathlib import Path
 
 CODEX_HOME = Path(os.environ.get("CODEX_HOME", "~/.codex")).expanduser()
 PREVIOUS_FILE = CODEX_HOME / "ai-agent-notify-previous.json"
-SENDER = CODEX_HOME / "scripts" / "ai-agent-notify.sh"
+SENDER = CODEX_HOME / "scripts" / "ai-agent-notify.py"
 
 
 def load_previous() -> list[str]:
@@ -23,7 +23,7 @@ def load_previous() -> list[str]:
     if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
         return []
     joined = " ".join(value)
-    if "notify_dispatcher.py" in joined or "ai-agent-notify.sh" in joined:
+    if "notify_dispatcher.py" in joined or "ai-agent-notify.py" in joined or "ai-agent-notify.sh" in joined:
         return []
     return value
 
@@ -32,7 +32,12 @@ def launch(command: list[str]) -> None:
     if not command:
         return
     try:
-        subprocess.Popen(command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.Popen(
+            command,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0) if os.name == "nt" else 0,
+        )
     except OSError:
         pass
 
@@ -43,7 +48,7 @@ def main() -> int:
     if previous:
         launch(previous + args)
     if SENDER.exists():
-        launch([str(SENDER), *args])
+        launch([sys.executable, str(SENDER), *args])
     return 0
 
 
