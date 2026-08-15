@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Agent 完成通知"
+  short_description: "选择 Bark、微信或双通道，在任务结束后通知手机用户"
+  default_prompt: "Use $ai-agent-notify to set up task-completion alerts through Bark, WeChat, or both."
